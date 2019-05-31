@@ -24,18 +24,18 @@ class BaseRabbitMQ(object):
         """
         self.conf_dict = conf_dict
         self.params = pika.ConnectionParameters(
-            host=self.get_settings('RABBITMQ_HOST'),
-            port=self.get_settings('RABBITMQ_PORT'),
+            host=self.get_settings('rabbitmq_host'),
+            port=self.get_settings('rabbitmq_port'),
             credentials=pika.credentials.PlainCredentials(self.principal, self.token),
-            heartbeat_interval=int(self.get_settings('HEARTBEAT_INTERVAL')),
-            blocked_connection_timeout=int(self.get_settings('BLOCKED_CONNECTION_TIMEOUT')),
+            heartbeat_interval=int(self.get_settings('heartbeat_interval')),
+            blocked_connection_timeout=int(self.get_settings('blocked_connection_timeout')),
         )
         self.connection = pika.BlockingConnection(
             parameters=self.params,
         )
         self.channel = self.connection.channel()
         self.queue = self.channel.queue_declare(
-            queue=self.get_settings('QUEUE_NAME'),
+            queue=self.get_settings('queue_name'),
             durable=True,
             exclusive=False,
             auto_delete=False,
@@ -77,10 +77,10 @@ class BaseRabbitMQ(object):
         не будет участвовать в аутентификации поэтому может быть любым
         :return: principal пользователя
         """
-        if int(self.get_settings('USE_GSS_API')):
-            return self.get_settings('PRINCIPAL')
+        if int(self.get_settings('use_gss_api')):
+            return self.get_settings('principal')
         else:
-            return self.get_settings('RABBIT_COMMON_USER')
+            return self.get_settings('rabbit_common_user')
 
     @property
     def token(self):
@@ -88,11 +88,11 @@ class BaseRabbitMQ(object):
         для передачи в поле пароль GSS токена
         :return: GSSAPI token (либо пароль в тестовой среде)
         """
-        if int(self.get_settings('USE_GSS_API')):
-            result, context = kerberos.authGSSClientInit(self.get_settings('RABBITMQ_SPS'),
+        if int(self.get_settings('use_gss_api')):
+            result, context = kerberos.authGSSClientInit(self.get_settings('rabbitmq_sps'),
                                                          gssflags=kerberos.GSS_C_SEQUENCE_FLAG,
-                                                         principal=self.get_settings('PRINCIPAL'))
+                                                         principal=self.get_settings('principal'))
             _result = kerberos.authGSSClientStep(context, '')
             return kerberos.authGSSClientResponse(context)
         else:
-            return self.get_settings('RABBIT_COMMON_PASSWORD')
+            return self.get_settings('rabbit_common_password')

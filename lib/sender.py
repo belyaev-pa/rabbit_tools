@@ -49,7 +49,7 @@ class RabbitMQSender(BaseRabbitMQ):
             routing_key=self.queue_name,
             body=self.message,
             properties=pika.BasicProperties(
-                delivery_mode=int(self.get_settings('DELIVERY_MODE')),  # make message persistent
+                delivery_mode=int(self.get_settings('delivery_mode')),  # make message persistent
             )
         )
 

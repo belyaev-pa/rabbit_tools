@@ -25,7 +25,7 @@ class RabbitMQListener(BaseRabbitMQ):
         # self.pidfile = pidfile
         super(RabbitMQListener, self).__init__(conf_dict)
         # адекватная передача ссылки на функцию-обработчик сообщения
-        self.handler_link = self.get_settings('HANDLER_LINK')
+        self.handler_link = self.get_settings('handler_link')
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         """
@@ -35,7 +35,7 @@ class RabbitMQListener(BaseRabbitMQ):
         :param traceback:
         :return:
         """
-        syslog.openlog(self.get_settings('LOG_NAME'))
+        syslog.openlog(self.get_settings('log_name'))
         syslog.syslog(syslog.LOG_INFO, '{} Exiting...{}'.format(datetime.datetime.now(), traceback.format_exc(limit=2)))
         self.channel.stop_consuming()
         self.connection.close()
@@ -48,7 +48,7 @@ class RabbitMQListener(BaseRabbitMQ):
             self.threads = []
             on_message_callback = functools.partial(self.on_message)
             self.channel.basic_consume(on_message_callback,
-                                       queue=self.get_settings('QUEUE_NAME'))
+                                       queue=self.get_settings('queue_name'))
             self.channel.start_consuming()
 
     def ack_message(self, ch, delivery_tag):

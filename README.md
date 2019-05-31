@@ -33,7 +33,7 @@ Required settings
 наполнение словаря с настройками, если используется функция парсинга конфига, параметр ссылки на функцию должен 
 быть добавлен в словарь в мануальном режиме
 
-    delivery_mode - опция доставка RabbitMQ
+    delivery_mode - опция доставка RabbitMQ (2 - по умолчанию)
     rabbitmq_host
     rabbitmq_port
     heartbeat_interval - 600
