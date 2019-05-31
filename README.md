@@ -33,16 +33,16 @@ Required settings
 наполнение словаря с настройками, если используется функция парсинга конфига, параметр ссылки на функцию должен 
 быть добавлен в словарь в мануальном режиме
 
-    DELIVERY_MODE - опция доставка RabbitMQ
-    RABBITMQ_HOST
-    RABBITMQ_PORT
-    HEARTBEAT_INTERVAL - 600
-    BLOCKED_CONNECTION_TIMEOUT - 300
-    QUEUE_NAME - наименование очереди для прослушки
-    USE_GSS_API - 1 использовать 0 неиспользовать
-    RABBITMQ_SPS - GSS SPS раббита 
-    PRINCIPAL - принципал
-    RABBIT_COMMON_USER - пользователь (если не используем gssapi) 
-    RABBIT_COMMON_PASSWORD - пароль (если не используем gssapi)
-    HANDLER_LINK - ссылка на функцию обработчик сообщения для прослушки
-    LOG_NAME - имя лога    
+    delivery_mode - опция доставка RabbitMQ
+    rabbitmq_host
+    rabbitmq_port
+    heartbeat_interval - 600
+    blocked_connection_timeout - 300
+    queue_name - наименование очереди для прослушки
+    use_gss_api - 1 использовать 0 неиспользовать
+    rabbitmq_sps - GSS SPS раббита 
+    principal - принципал
+    rabbit_common_user - пользователь (если не используем gssapi) 
+    rabbit_common_password - пароль (если не используем gssapi)
+    handler_link - ссылка на функцию обработчик сообщения для прослушки
+    log_name - имя лога    
