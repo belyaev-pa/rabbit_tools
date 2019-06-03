@@ -89,11 +89,13 @@ Message format
               [ 
                 "файлы сообщения или лог ошибки",
                 {
-                  "name": "file1.txt",
+                  "name": "file1.txt ",
+                  "aliace": "псевдоним файла, для вставки в cmd команды",
                   "data": "data file1 in base64"
                 },
                 {
                   "name": "file2.txt",
+                  "aliace": "псевдоним файла, для вставки в cmd команды",
                   "data": "data file2 in base64"
                 }
               ],
