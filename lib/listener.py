@@ -4,6 +4,7 @@ import functools
 import datetime
 import syslog
 import traceback
+
 from base_rabbit_connector import BaseRabbitMQ
 
 
