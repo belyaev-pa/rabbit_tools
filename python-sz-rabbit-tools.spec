@@ -7,7 +7,7 @@ License: 	commercial
 URL:		http://www.fintech.ru
 Source0:	%{name}.tar.gz
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-Requires:	python-kerberos >= 1.2.1
+Requires:	python-kerberos
 Requires:	python2-pika >= 0.12.0
 
 #%global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib;")
