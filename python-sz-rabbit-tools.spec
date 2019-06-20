@@ -22,8 +22,8 @@ Requires:	python2-pika >= 0.12.0
 %setup -n %{name} -q
 
 %install
-mkdir -p %{buildroot}/%{python_sitelib}/python_rabbit_tools/
-cp -r ./lib/* %{buildroot}/%{python_sitelib}/python_rabbit_tools/
+mkdir -p %{buildroot}/%{python_sitelib}/python_sz_rabbit_tools/
+cp -r ./lib/* %{buildroot}/%{python_sitelib}/python_sz_rabbit_tools/
 
 #mkdir -p %{buildroot}/usr/share/python_sz_daemon/
 #cp -r ./share/* %{buildroot}/usr/share/python_sz_daemon/
@@ -35,15 +35,16 @@ rm -rf %{buildroot}
 
 %files
 %defattr(644,root,root,-)
-%{python_sitelib}/python_rabbit_tools/base_rabbit_connector.py
-%{python_sitelib}/python_rabbit_tools/listener.py
-%{python_sitelib}/python_rabbit_tools/sender.py
-%{python_sitelib}/python_rabbit_tools/__init__.py
+%{python_sitelib}/python_sz_rabbit_tools/base_rabbit_connector.py
+%{python_sitelib}/python_sz_rabbit_tools/listener.py
+%{python_sitelib}/python_sz_rabbit_tools/sender.py
+%{python_sitelib}/python_sz_rabbit_tools/__init__.py
+%{python_sitelib}/python_sz_rabbit_tools/parse_conf.py
 #/usr/share/python_sz_daemon/example.py
 
 
-%exclude %{python_sitelib}/python_rabbit_tools/*.pyc
-%exclude %{python_sitelib}/python_rabbit_tools/*.pyo
+%exclude %{python_sitelib}/python_sz_rabbit_tools/*.pyc
+%exclude %{python_sitelib}/python_sz_rabbit_tools/*.pyo
 #%exclude /usr/share/python_sz_daemon/*.pyc
 #%exclude /usr/share/python_sz_daemon/*.pyo
 
