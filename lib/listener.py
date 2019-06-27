@@ -4,6 +4,7 @@ import functools
 import datetime
 import syslog
 import traceback
+import sys
 
 from base_rabbit_connector import BaseRabbitMQ
 
@@ -27,6 +28,7 @@ class RabbitMQListener(BaseRabbitMQ):
         super(RabbitMQListener, self).__init__(conf_dict)
         # адекватная передача ссылки на функцию-обработчик сообщения
         self.handler_link = self.get_settings('handler_link')
+        syslog.openlog(self.get_settings('log_name'))
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         """
@@ -36,7 +38,6 @@ class RabbitMQListener(BaseRabbitMQ):
         :param traceback:
         :return:
         """
-        syslog.openlog(self.get_settings('log_name'))
         syslog.syslog(syslog.LOG_INFO, '{} Exiting...{}'.format(datetime.datetime.now(), traceback.format_exc(limit=2)))
         self.channel.stop_consuming()
         self.connection.close()
@@ -45,6 +46,7 @@ class RabbitMQListener(BaseRabbitMQ):
             thread.join()
 
     def run(self):
+        syslog.syslog(syslog.LOG_DEBUG, 'запускаю функцию run() прослушки RabbitMQ')
         while True:
             self.threads = []
             on_message_callback = functools.partial(self.on_message)
@@ -61,8 +63,10 @@ class RabbitMQListener(BaseRabbitMQ):
         the message being ACKed was retrieved (AMQP protocol constraint).
         """
         if self.channel.is_open:
+            syslog.syslog(syslog.LOG_DEBUG, 'Возвращаем ack для RabbitMQ')
             self.channel.basic_ack(self.delivery_tag)
         else:
+            syslog.syslog(syslog.LOG_DEBUG, 'ack для RabbitMQ вернуть не получилось так как канал с сервером закрыт')
             pass
 
 
@@ -76,7 +80,19 @@ class RabbitMQListener(BaseRabbitMQ):
         """
         # time.sleep(10)
         # необходимо переработать вызов класса воркера тут как указан ов to_do в __init__
-        self.handler_link(body)
+        syslog.syslog(syslog.LOG_DEBUG, 'Запускаем выполнение функции: {}'.format(self.handler_link))
+        try:
+            self.handler_link(body)
+        except BaseException as err:
+            syslog.syslog(syslog.LOG_ERR, 'Произошла ошибка при вызове функции run демона. Traceback:')
+            syslog.syslog(syslog.LOG_ERR, '-' * 100)
+            ex_type, ex, tb = sys.exc_info()
+            for obj in traceback.extract_tb(tb):
+                syslog.syslog(syslog.LOG_ERR, 'Файл: {}, строка: {}, вызов: {}'.format(obj[0], obj[1], obj[2]))
+                syslog.syslog(syslog.LOG_ERR, '----->>>  {}'.format(obj[3]))
+            syslog.syslog(syslog.LOG_ERR, 'Ошибка: {}.'.format(err))
+            syslog.syslog(syslog.LOG_ERR, '-' * 100)
+            raise Exception('Ошибка при выполнении функции обработки сообщения')
         # if self.ab_sb == 'ab':
         #     work.AgentJobHandler(body, self.get_settings('TMP_LOG_PATH'))
         # elif self.ab_sb == 'sb':
@@ -95,6 +111,7 @@ class RabbitMQListener(BaseRabbitMQ):
         :param body: сообщение
         :return: void
         """
+        syslog.syslog(syslog.LOG_DEBUG, 'Получено новое сообщение от RabbitMQ')
         self.delivery_tag = method_frame.delivery_tag
         thr = threading.Thread(target=self.do_work, args=(self.connection, ch, self.delivery_tag, body))
         thr.start()

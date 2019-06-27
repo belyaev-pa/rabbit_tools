@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pika
 import kerberos
+import syslog
 
 
 class BaseRabbitMQ(object):
@@ -41,6 +42,7 @@ class BaseRabbitMQ(object):
             auto_delete=False,
         )
         self.channel.basic_qos(prefetch_count=1)
+        syslog.openlog(self.get_settings('log_name'))
 
     def __enter__(self):
         """
@@ -64,11 +66,15 @@ class BaseRabbitMQ(object):
 
     def get_settings(self, setting):
         if type(self.conf_dict) is not dict:
-            raise AttributeError('conf_dict must be a dict.')
+            msg = 'conf_dict должен быть словарем.'
+            syslog.syslog(syslog.LOG_ERR, msg)
+            raise AttributeError(msg)
         try:
             prop = self.conf_dict[setting]
         except KeyError:
-            raise KeyError("Can`t find {0} in provided config dictionary".format(setting))
+            msg = "Не могу найти необходимый параметр параметр {0} в конфигурационном файле".format(setting)
+            syslog.syslog(syslog.LOG_ERR, msg)
+            raise KeyError(msg)
         return prop
 
     @property
