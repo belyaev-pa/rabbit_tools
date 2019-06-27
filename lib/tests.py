@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from sender import rabbit_send, parse_conf
+from python_rabbit_tools.sender import rabbit_send
+from python_rabbit_tools.tools import parse_conf
 
 
 CONF_FILE = '/home/pavel/conf_conf.conf'

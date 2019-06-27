@@ -6,7 +6,7 @@ import syslog
 import traceback
 import sys
 
-from base_rabbit_connector import BaseRabbitMQ
+from python_rabbit_tools.base_rabbit_connector import BaseRabbitMQ
 
 
 class RabbitMQListener(BaseRabbitMQ):

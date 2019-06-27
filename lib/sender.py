@@ -3,8 +3,8 @@ import pika
 import json
 import ConfigParser
 
-from parse_conf import parse_conf
-from base_rabbit_connector import BaseRabbitMQ
+from python_rabbit_tools.tools import parse_conf
+from python_rabbit_tools.base_rabbit_connector import BaseRabbitMQ
 
 
 class RabbitMQSender(BaseRabbitMQ):

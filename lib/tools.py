@@ -2,6 +2,7 @@
 
 import ConfigParser
 
+
 def parse_conf(conf_file_path):
     """
     Функция парсинга конфиг файла
