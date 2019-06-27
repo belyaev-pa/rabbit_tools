@@ -3,6 +3,7 @@ import pika
 import json
 import ConfigParser
 
+from parse_conf import parse_conf
 from base_rabbit_connector import BaseRabbitMQ
 
 
@@ -66,18 +67,3 @@ def rabbit_send(conf_dict, msg, queue_name):
     with RabbitMQSender(conf_dict, msg, queue_name) as sender_obj:
         sender_obj.send()
 
-
-def parse_conf(conf_file_path):
-    """
-    Функция парсинга конфиг файла
-    одноименные ключи будут затерты, будет взят последний
-    :param conf_file_path: путь до файла
-    :return: сформированный словарь настроек
-    """
-    config = ConfigParser.ConfigParser()
-    config.read(conf_file_path)
-    conf_dict = {}
-    for section in config.sections():
-        section_dict = {key: value for (key, value) in config.items(section)}
-        conf_dict.update(section_dict)
-    return conf_dict
