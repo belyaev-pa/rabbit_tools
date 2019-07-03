@@ -39,7 +39,7 @@ rm -rf %{buildroot}
 %{python_sitelib}/python_sz_rabbit_tools/listener.py
 %{python_sitelib}/python_sz_rabbit_tools/sender.py
 %{python_sitelib}/python_sz_rabbit_tools/__init__.py
-%{python_sitelib}/python_sz_rabbit_tools/parse_conf.py
+%{python_sitelib}/python_sz_rabbit_tools/tools.py
 #/usr/share/python_sz_daemon/example.py
 
 
