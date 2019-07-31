@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import ConfigParser
+import configparser
 
 
 def parse_conf(conf_file_path):
@@ -10,7 +10,7 @@ def parse_conf(conf_file_path):
     :param conf_file_path: путь до файла
     :return: сформированный словарь настроек
     """
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read(conf_file_path)
     config_dict = dict()
     for section in config.sections():

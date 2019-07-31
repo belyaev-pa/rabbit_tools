@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import pika
 import json
-import ConfigParser
 
-from python_rabbit_tools.tools import parse_conf
 from python_rabbit_tools.base_rabbit_connector import BaseRabbitMQ
 
 
