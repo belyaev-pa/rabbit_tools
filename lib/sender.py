@@ -2,7 +2,7 @@
 import pika
 import json
 
-from python_rabbit_tools.base_rabbit_connector import BaseRabbitMQ
+from python_sz_rabbit_tools.base_rabbit_connector import BaseRabbitMQ
 
 
 class RabbitMQSender(BaseRabbitMQ):
